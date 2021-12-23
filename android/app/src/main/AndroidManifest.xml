@@ -28,7 +28,7 @@
 
     <application
         android:name=".Application"
-        android:label="StackFood Restaurant"
+        android:label="Ghantawala Restaurant"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">

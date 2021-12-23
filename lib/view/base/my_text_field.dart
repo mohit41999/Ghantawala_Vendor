@@ -22,27 +22,29 @@ class MyTextField extends StatefulWidget {
   final bool isAmount;
   final bool amountIcon;
   final bool title;
+  final bool readonly;
   final Function onComplete;
 
   MyTextField(
       {this.hintText = '',
-        this.controller,
-        this.focusNode,
-        this.nextFocus,
-        this.isEnabled = true,
-        this.inputType = TextInputType.text,
-        this.inputAction = TextInputAction.next,
-        this.maxLines = 1,
-        this.onSubmit,
-        this.onChanged,
-        this.capitalization = TextCapitalization.none,
-        this.onTap,
-        this.fillColor,
-        this.isPassword = false,
-        this.isAmount = false,
-        this.amountIcon = false,
-        this.title = true,
-        this.onComplete});
+      this.controller,
+      this.focusNode,
+      this.nextFocus,
+      this.isEnabled = true,
+      this.inputType = TextInputType.text,
+      this.inputAction = TextInputAction.next,
+      this.maxLines = 1,
+      this.onSubmit,
+      this.onChanged,
+      this.capitalization = TextCapitalization.none,
+      this.onTap,
+      this.fillColor,
+      this.isPassword = false,
+      this.isAmount = false,
+      this.amountIcon = false,
+      this.title = true,
+      this.onComplete,
+      this.readonly = false});
 
   @override
   _MyTextFieldState createState() => _MyTextFieldState();
@@ -54,33 +56,49 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-      widget.title ? Row(children: [
-        Text(
-          widget.hintText,
-          style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_SMALL, color: Theme.of(context).disabledColor),
-        ),
-        SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-        widget.isEnabled ? SizedBox() : Text('(${'non_changeable'.tr})', style: robotoRegular.copyWith(
-          fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: Theme.of(context).errorColor,
-        )),
-      ]) : SizedBox(),
+      widget.title
+          ? Row(children: [
+              Text(
+                widget.hintText,
+                style: robotoRegular.copyWith(
+                    fontSize: Dimensions.FONT_SIZE_SMALL,
+                    color: Theme.of(context).disabledColor),
+              ),
+              SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+              widget.isEnabled
+                  ? SizedBox()
+                  : Text('(${'non_changeable'.tr})',
+                      style: robotoRegular.copyWith(
+                        fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
+                        color: Theme.of(context).errorColor,
+                      )),
+            ])
+          : SizedBox(),
       SizedBox(height: widget.title ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
-
       Container(
         height: widget.maxLines != 5 ? 50 : 100,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-          boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5, offset: Offset(0, 5))],
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey[Get.isDarkMode ? 800 : 200],
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: Offset(0, 5))
+          ],
         ),
         child: TextField(
+          readOnly: widget.readonly,
           maxLines: widget.maxLines,
           controller: widget.controller,
           focusNode: widget.focusNode,
           style: robotoRegular,
-          textInputAction: widget.nextFocus != null ? widget.inputAction : TextInputAction.done,
-          keyboardType: widget.isAmount ? TextInputType.number : widget.inputType,
+          textInputAction: widget.nextFocus != null
+              ? widget.inputAction
+              : TextInputAction.done,
+          keyboardType:
+              widget.isAmount ? TextInputType.number : widget.inputType,
           cursorColor: Theme.of(context).primaryColor,
           textCapitalization: widget.capitalization,
           enabled: widget.isEnabled,
@@ -88,29 +106,46 @@ class _MyTextFieldState extends State<MyTextField> {
           autofocus: false,
           //onChanged: widget.isSearch ? widget.languageProvider.searchLanguage : null,
           obscureText: widget.isPassword ? _obscureText : false,
-          inputFormatters: widget.inputType == TextInputType.phone ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))]
-              : widget.isAmount ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))] : null,
+          inputFormatters: widget.inputType == TextInputType.phone
+              ? <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp('[0-9+]'))
+                ]
+              : widget.isAmount
+                  ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+                  : null,
           decoration: InputDecoration(
             hintText: widget.hintText,
             isDense: true,
             filled: true,
-            fillColor: widget.fillColor != null ? widget.fillColor : Theme.of(context).cardColor,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL), borderSide: BorderSide.none),
-            hintStyle: robotoRegular.copyWith(color: Theme.of(context).hintColor),
-            suffixIcon: widget.isPassword ? IconButton(
-              icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
-              onPressed: _toggle,
-            ) : null,
-            prefixIcon: widget.amountIcon ? Icon(Icons.attach_money, size: 20) : null,
+            fillColor: widget.fillColor != null
+                ? widget.fillColor
+                : Theme.of(context).cardColor,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                borderSide: BorderSide.none),
+            hintStyle:
+                robotoRegular.copyWith(color: Theme.of(context).hintColor),
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Theme.of(context).hintColor.withOpacity(0.3)),
+                    onPressed: _toggle,
+                  )
+                : null,
+            prefixIcon:
+                widget.amountIcon ? Icon(Icons.attach_money, size: 20) : null,
           ),
           onTap: widget.onTap,
-          onSubmitted: (text) => widget.nextFocus != null ? FocusScope.of(context).requestFocus(widget.nextFocus)
-              : widget.onSubmit != null ? widget.onSubmit(text) : null,
+          onSubmitted: (text) => widget.nextFocus != null
+              ? FocusScope.of(context).requestFocus(widget.nextFocus)
+              : widget.onSubmit != null
+                  ? widget.onSubmit(text)
+                  : null,
           onChanged: widget.onChanged,
           onEditingComplete: widget.onComplete,
         ),
       ),
-
     ]);
   }
 
