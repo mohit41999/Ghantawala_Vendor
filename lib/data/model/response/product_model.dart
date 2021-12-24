@@ -46,6 +46,7 @@ class Product {
   String name;
   String description;
   String image;
+  var item_qty;
   int categoryId;
   List<CategoryIds> categoryIds;
   List<Variation> variations;
@@ -73,37 +74,39 @@ class Product {
 
   Product(
       {this.id,
-        this.name,
-        this.description,
-        this.image,
-        this.categoryId,
-        this.categoryIds,
-        this.variations,
-        this.addOns,
-        this.attributes,
-        this.choiceOptions,
-        this.price,
-        this.tax,
-        this.discount,
-        this.discountType,
-        this.availableTimeStarts,
-        this.availableTimeEnds,
-        this.setMenu,
-        this.status,
-        this.restaurantId,
-        this.createdAt,
-        this.updatedAt,
-        this.restaurantName,
-        this.restaurantDiscount,
-        this.restaurantOpeningTime,
-        this.restaurantClosingTime,
-        this.scheduleOrder,
-        this.avgRating,
-        this.ratingCount});
+      this.name,
+      this.description,
+      this.image,
+      this.item_qty,
+      this.categoryId,
+      this.categoryIds,
+      this.variations,
+      this.addOns,
+      this.attributes,
+      this.choiceOptions,
+      this.price,
+      this.tax,
+      this.discount,
+      this.discountType,
+      this.availableTimeStarts,
+      this.availableTimeEnds,
+      this.setMenu,
+      this.status,
+      this.restaurantId,
+      this.createdAt,
+      this.updatedAt,
+      this.restaurantName,
+      this.restaurantDiscount,
+      this.restaurantOpeningTime,
+      this.restaurantClosingTime,
+      this.scheduleOrder,
+      this.avgRating,
+      this.ratingCount});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    item_qty = json['item_qty'];
     description = json['description'];
     image = json['image'];
     categoryId = json['category_id'];
@@ -113,6 +116,7 @@ class Product {
         categoryIds.add(new CategoryIds.fromJson(v));
       });
     }
+
     if (json['variations'] != null) {
       variations = [];
       json['variations'].forEach((v) {
@@ -125,9 +129,10 @@ class Product {
         addOns.add(new AddOns.fromJson(v));
       });
     }
-    if(json['attributes'] != null) {
+    if (json['attributes'] != null) {
       attributes = [];
-      json['attributes'].forEach((attr) => attributes.add(int.parse(attr.toString())));
+      json['attributes']
+          .forEach((attr) => attributes.add(int.parse(attr.toString())));
     }
     if (json['choice_options'] != null) {
       choiceOptions = [];
@@ -161,6 +166,7 @@ class Product {
     data['name'] = this.name;
     data['description'] = this.description;
     data['image'] = this.image;
+    data['item_qty'] = this.item_qty;
     data['category_id'] = this.categoryId;
     if (this.categoryIds != null) {
       data['category_ids'] = this.categoryIds.map((v) => v.toJson()).toList();
@@ -236,10 +242,11 @@ class AddOns {
   String name;
   double price;
 
-  AddOns(
-      {this.id,
-        this.name,
-        this.price,});
+  AddOns({
+    this.id,
+    this.name,
+    this.price,
+  });
 
   AddOns.fromJson(Map<String, dynamic> json) {
     id = json['id'];

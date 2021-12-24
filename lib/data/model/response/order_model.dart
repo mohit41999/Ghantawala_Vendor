@@ -28,7 +28,6 @@ class PaginatedOrderModel {
     }
     return data;
   }
-
 }
 
 class OrderModel {
@@ -48,6 +47,8 @@ class OrderModel {
   String scheduleAt;
   String otp;
   String pending;
+  String arriving;
+  String cooking;
   String accepted;
   String confirmed;
   String processing;
@@ -72,42 +73,44 @@ class OrderModel {
 
   OrderModel(
       {this.id,
-        this.orderAmount,
-        this.couponDiscountAmount,
-        this.couponDiscountTitle,
-        this.paymentStatus,
-        this.orderStatus,
-        this.totalTaxAmount,
-        this.paymentMethod,
-        this.orderNote,
-        this.orderType,
-        this.createdAt,
-        this.updatedAt,
-        this.deliveryCharge,
-        this.scheduleAt,
-        this.otp,
-        this.pending,
-        this.accepted,
-        this.confirmed,
-        this.processing,
-        this.handover,
-        this.pickedUp,
-        this.delivered,
-        this.canceled,
-        this.refundRequested,
-        this.refunded,
-        this.deliveryAddress,
-        this.scheduled,
-        this.restaurantDiscountAmount,
-        this.restaurantName,
-        this.restaurantAddress,
-        this.restaurantPhone,
-        this.restaurantLat,
-        this.restaurantLng,
-        this.restaurantLogo,
-        this.foodCampaign,
-        this.detailsCount,
-        this.customer});
+      this.orderAmount,
+      this.couponDiscountAmount,
+      this.couponDiscountTitle,
+      this.paymentStatus,
+      this.orderStatus,
+      this.totalTaxAmount,
+      this.paymentMethod,
+      this.orderNote,
+      this.orderType,
+      this.arriving,
+      this.cooking,
+      this.createdAt,
+      this.updatedAt,
+      this.deliveryCharge,
+      this.scheduleAt,
+      this.otp,
+      this.pending,
+      this.accepted,
+      this.confirmed,
+      this.processing,
+      this.handover,
+      this.pickedUp,
+      this.delivered,
+      this.canceled,
+      this.refundRequested,
+      this.refunded,
+      this.deliveryAddress,
+      this.scheduled,
+      this.restaurantDiscountAmount,
+      this.restaurantName,
+      this.restaurantAddress,
+      this.restaurantPhone,
+      this.restaurantLat,
+      this.restaurantLng,
+      this.restaurantLogo,
+      this.foodCampaign,
+      this.detailsCount,
+      this.customer});
 
   OrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -126,6 +129,9 @@ class OrderModel {
     scheduleAt = json['schedule_at'];
     otp = json['otp'];
     pending = json['pending'];
+    arriving = json['arriving'];
+    cooking = json['cooking'];
+
     accepted = json['accepted'];
     confirmed = json['confirmed'];
     processing = json['processing'];
@@ -171,6 +177,8 @@ class OrderModel {
     data['schedule_at'] = this.scheduleAt;
     data['otp'] = this.otp;
     data['pending'] = this.pending;
+    data['cooking'] = this.cooking;
+    data['arriving'] = this.arriving;
     data['accepted'] = this.accepted;
     data['confirmed'] = this.confirmed;
     data['processing'] = this.processing;
@@ -210,11 +218,11 @@ class DeliveryAddress {
 
   DeliveryAddress(
       {this.contactPersonName,
-        this.contactPersonNumber,
-        this.addressType,
-        this.address,
-        this.longitude,
-        this.latitude});
+      this.contactPersonNumber,
+      this.addressType,
+      this.address,
+      this.longitude,
+      this.latitude});
 
   DeliveryAddress.fromJson(Map<String, dynamic> json) {
     contactPersonName = json['contact_person_name'];
@@ -249,13 +257,13 @@ class Customer {
 
   Customer(
       {this.id,
-        this.fName,
-        this.lName,
-        this.phone,
-        this.email,
-        this.image,
-        this.createdAt,
-        this.updatedAt});
+      this.fName,
+      this.lName,
+      this.phone,
+      this.email,
+      this.image,
+      this.createdAt,
+      this.updatedAt});
 
   Customer.fromJson(Map<String, dynamic> json) {
     id = json['id'];

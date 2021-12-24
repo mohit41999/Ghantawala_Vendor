@@ -39,11 +39,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final FocusNode _descriptionNode = FocusNode();
   bool _update;
   Product _product;
+  String item_quantity;
+  List<String> opening_balance = [
+    "KG",
+    "Grams",
+    "Pieces",
+    "Counts",
+    "Half Plate",
+    "Full Plate"
+  ];
 
   @override
   void initState() {
     super.initState();
-
+    item_quantity = widget.product.item_qty;
     _product = widget.product;
     _update = widget.product != null;
     Get.find<RestaurantController>().getAttributeList(widget.product);
@@ -153,12 +162,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         child: Text(value.tr),
                                       );
                                     }).toList(),
-                                    onChanged: (value) {
-                                      (widget.product != null)
-                                          ? () {}
-                                          : restController.setDiscountTypeIndex(
-                                              value == 'percent' ? 0 : 1, true);
-                                    },
+                                    onChanged: (widget.product != null)
+                                        ? null
+                                        : (value) {
+                                            restController.setDiscountTypeIndex(
+                                                value == 'percent' ? 0 : 1,
+                                                true);
+                                          },
                                     isExpanded: true,
                                     underline: SizedBox(),
                                   ),
@@ -214,18 +224,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             : 'Select'),
                                       );
                                     }).toList(),
-                                    onChanged: (int value) {
-                                      (widget.product != null)
-                                          ? () {}
-                                          : restController.setCategoryIndex(
-                                              value, true);
-                                      restController.getSubCategoryList(
-                                          value != 0
-                                              ? restController
-                                                  .categoryList[value - 1].id
-                                              : 0,
-                                          null);
-                                    },
+                                    onChanged: (widget.product != null)
+                                        ? null
+                                        : (int value) {
+                                            restController.setCategoryIndex(
+                                                value, true);
+                                            restController.getSubCategoryList(
+                                                value != 0
+                                                    ? restController
+                                                        .categoryList[value - 1]
+                                                        .id
+                                                    : 0,
+                                                null);
+                                          },
                                     isExpanded: true,
                                     underline: SizedBox(),
                                   ),
@@ -279,18 +290,61 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             : 'Select'),
                                       );
                                     }).toList(),
-                                    onChanged: (int value) {
-                                      (widget.product != null)
-                                          ? () {}
-                                          : restController.setSubCategoryIndex(
-                                              value, true);
-                                    },
+                                    onChanged: (widget.product != null)
+                                        ? null
+                                        : (int value) {
+                                            restController.setSubCategoryIndex(
+                                                value, true);
+                                          },
                                     isExpanded: true,
                                     underline: SizedBox(),
                                   ),
                                 ),
                               ])),
                         ]),
+                        SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                        Text(
+                          'opening_balance'.tr,
+                          style: robotoRegular.copyWith(
+                              fontSize: Dimensions.FONT_SIZE_SMALL,
+                              color: Theme.of(context).disabledColor),
+                        ),
+                        SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Dimensions.PADDING_SIZE_SMALL),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                            boxShadow: [
+                              BoxShadow(
+                                  color:
+                                      Colors.grey[Get.isDarkMode ? 800 : 200],
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 5))
+                            ],
+                          ),
+                          child: DropdownButton(
+                            underline: Container(),
+                            items: opening_balance
+                                .map<DropdownMenuItem<String>>(
+                                    (opening_balance) {
+                              return DropdownMenuItem(
+                                child: Text('${opening_balance.toString()}'),
+                                value: opening_balance,
+                              );
+                            }).toList(),
+                            isExpanded: true,
+                            value: item_quantity,
+                            onChanged: (String value) {
+                              setState(() {
+                                item_quantity = value;
+                              });
+                            },
+                          ),
+                        ),
                         SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
                         AttributeView(
                             restController: restController,
@@ -577,6 +631,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             showCustomSnackBar('upload_food_image'.tr);
                           } else {
                             _product.name = _name;
+                            _product.item_qty = item_quantity;
                             _product.price = double.parse(_price);
                             _product.discount = double.parse(_discount);
                             _product.discountType =

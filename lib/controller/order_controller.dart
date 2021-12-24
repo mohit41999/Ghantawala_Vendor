@@ -22,7 +22,7 @@ class OrderController extends GetxController implements GetxService {
   bool _isLoading = false;
   int _orderIndex = 0;
   bool _campaignOnly = false;
-  String _otp = '';
+  String _otp = '1234';
   int _historyIndex = 0;
   List<String> _statusList = ['all', 'delivered', 'refunded'];
   bool _paginate = false;
@@ -71,10 +71,10 @@ class OrderController extends GetxController implements GetxService {
       _runningOrders = [
         RunningOrderModel(status: 'pending', orderList: []),
         RunningOrderModel(status: 'confirmed', orderList: []),
-        RunningOrderModel(status: 'Arriving', orderList: []),
+        RunningOrderModel(status: 'arriving', orderList: []),
         RunningOrderModel(status: 'cooking', orderList: []),
         RunningOrderModel(status: 'delivered', orderList: []),
-        RunningOrderModel(status: 'Cancelled', orderList: []),
+        RunningOrderModel(status: 'cancelled', orderList: []),
       ];
       response.body.forEach((order) {
         OrderModel _orderModel = OrderModel.fromJson(order);
@@ -156,6 +156,7 @@ class OrderController extends GetxController implements GetxService {
     UpdateStatusBody _updateStatusBody = UpdateStatusBody(
       orderId: orderID,
       status: status,
+      // otp: null,
       otp: status == 'delivered' ? _otp : null,
     );
     Response response = await orderRepo.updateOrderStatus(_updateStatusBody);
@@ -202,6 +203,7 @@ class OrderController extends GetxController implements GetxService {
     _runningOrders[2].orderList = [];
     _runningOrders[3].orderList = [];
     _runningOrders[4].orderList = [];
+    _runningOrders[5].orderList = [];
     _runningOrderList.forEach((order) {
       if (order.orderStatus == 'pending' &&
           (Get.find<SplashController>().configModel.orderConfirmationModel !=
@@ -218,15 +220,20 @@ class OrderController extends GetxController implements GetxService {
                           'deliveryman'))) &&
           (_campaignOnly ? order.foodCampaign == 1 : true)) {
         _runningOrders[1].orderList.add(order);
-      } else if (order.orderStatus == 'processing' &&
-          (_campaignOnly ? order.foodCampaign == 1 : true)) {
+      } else if (order.orderStatus == 'arriving'
+          // &&
+          // (_campaignOnly ? order.foodCampaign == 1 : true)
+          ) {
         _runningOrders[2].orderList.add(order);
-      } else if (order.orderStatus == 'handover' &&
+      } else if (order.orderStatus == 'cooking' &&
           (_campaignOnly ? order.foodCampaign == 1 : true)) {
         _runningOrders[3].orderList.add(order);
-      } else if (order.orderStatus == 'picked_up' &&
+      } else if (order.orderStatus == 'delivered' &&
           (_campaignOnly ? order.foodCampaign == 1 : true)) {
         _runningOrders[4].orderList.add(order);
+      } else if (order.orderStatus == 'cancelled' &&
+          (_campaignOnly ? order.foodCampaign == 1 : true)) {
+        _runningOrders[5].orderList.add(order);
       }
     });
     update();
