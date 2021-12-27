@@ -47,6 +47,7 @@ class Product {
   String description;
   String image;
   var item_qty;
+  var item_unit;
   int categoryId;
   List<CategoryIds> categoryIds;
   List<Variation> variations;
@@ -78,6 +79,7 @@ class Product {
       this.description,
       this.image,
       this.item_qty,
+      this.item_unit,
       this.categoryId,
       this.categoryIds,
       this.variations,
@@ -107,6 +109,7 @@ class Product {
     id = json['id'];
     name = json['name'];
     item_qty = json['item_qty'];
+    item_unit = json['item_unit'];
     description = json['description'];
     image = json['image'];
     categoryId = json['category_id'];
@@ -167,6 +170,7 @@ class Product {
     data['description'] = this.description;
     data['image'] = this.image;
     data['item_qty'] = this.item_qty;
+    data['item_unit'] = this.item_unit;
     data['category_id'] = this.categoryId;
     if (this.categoryIds != null) {
       data['category_ids'] = this.categoryIds.map((v) => v.toJson()).toList();

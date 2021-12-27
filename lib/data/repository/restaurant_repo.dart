@@ -100,6 +100,7 @@ class RestaurantRepo {
       'discount': product.discount.toString(),
       'discount_type': product.discountType,
       'item_qty': product.item_qty,
+      'item_unit': product.item_unit,
       'category_id': product.categoryIds[0].id,
       'addon_ids': jsonEncode(_addonIds),
       'available_time_starts': product.availableTimeStarts,

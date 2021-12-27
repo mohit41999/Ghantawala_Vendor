@@ -133,8 +133,16 @@ class _MyTextFieldState extends State<MyTextField> {
                     onPressed: _toggle,
                   )
                 : null,
-            prefixIcon:
-                widget.amountIcon ? Icon(Icons.attach_money, size: 20) : null,
+            prefixIcon: widget.amountIcon
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '₹',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )
+                : null,
           ),
           onTap: widget.onTap,
           onSubmitted: (text) => widget.nextFocus != null
