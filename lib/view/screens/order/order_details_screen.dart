@@ -274,14 +274,15 @@ class OrderDetailsScreen extends StatelessWidget {
                                 SizedBox(
                                     width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
                                 Row(children: [
-                                  ClipOval(
-                                      child: CustomImage(
-                                    image:
-                                        '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${_order.customer.image}',
-                                    height: 35,
-                                    width: 35,
-                                    fit: BoxFit.cover,
-                                  )),
+                                  // ClipOval(
+                                  //     child: CustomImage(
+                                  //   image:
+                                  //       '${Get.find<SplashController>().configModel.baseUrls.customerImageUrl}/${_order.customer.image}',
+                                  //   height: 35,
+                                  //   width: 35,
+                                  //   fit: BoxFit.cover,
+                                  // )
+                                  // ),
                                   SizedBox(
                                       width: Dimensions.PADDING_SIZE_SMALL),
                                   Expanded(
@@ -532,9 +533,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                             .getCurrentOrders();
                                       }
                                     });
-                                  } else if (orderModel.orderStatus ==
-                                          'cooking' &&
-                                      orderModel.orderType == 'take_away') {
+                                  } else if (orderModel.orderStatus == 'cooking'
+                                      // &&
+                                      // orderModel.orderType == 'take_away'
+                                      ) {
                                     if (Get.find<SplashController>()
                                             .configModel
                                             .orderDeliveryVerification ||
