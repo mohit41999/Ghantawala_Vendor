@@ -138,7 +138,7 @@ class OrderModel {
     handover = json['handover'];
     pickedUp = json['picked_up'];
     delivered = json['delivered'];
-    canceled = json['canceled'];
+    canceled = json['cancelled'];
     refundRequested = json['refund_requested'];
     refunded = json['refunded'];
     deliveryAddress = json['delivery_address'] != null

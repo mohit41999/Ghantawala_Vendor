@@ -66,6 +66,7 @@ class OrderController extends GetxController implements GetxService {
 
   Future<void> getCurrentOrders() async {
     Response response = await orderRepo.getCurrentOrders();
+    print(response);
     if (response.statusCode == 200) {
       _runningOrderList = [];
       _runningOrders = [
@@ -160,6 +161,7 @@ class OrderController extends GetxController implements GetxService {
       otp: status == 'delivered' ? _otp : null,
     );
     Response response = await orderRepo.updateOrderStatus(_updateStatusBody);
+    print(response);
     Get.back();
     bool _isSuccess;
     if (response.statusCode == 200) {
@@ -228,8 +230,10 @@ class OrderController extends GetxController implements GetxService {
       } else if (order.orderStatus == 'cooking' &&
           (_campaignOnly ? order.foodCampaign == 1 : true)) {
         _runningOrders[3].orderList.add(order);
-      } else if (order.orderStatus == 'delivered' &&
-          (_campaignOnly ? order.foodCampaign == 1 : true)) {
+      } else if (order.orderStatus == 'delivered'
+          // &&
+          // (_campaignOnly ? order.foodCampaign == 1 : true)
+          ) {
         _runningOrders[4].orderList.add(order);
       } else if (order.orderStatus == 'cancelled' &&
           (_campaignOnly ? order.foodCampaign == 1 : true)) {

@@ -15,7 +15,8 @@ import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'helper/get_di.dart' as di;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   setPathUrlStrategy();
@@ -26,43 +27,105 @@ Future<void> main() async {
   int _orderID;
   try {
     if (GetPlatform.isMobile) {
-      final NotificationAppLaunchDetails notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+      final NotificationAppLaunchDetails notificationAppLaunchDetails =
+          await flutterLocalNotificationsPlugin
+              .getNotificationAppLaunchDetails();
       if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-        _orderID = notificationAppLaunchDetails.payload != null ? int.parse(notificationAppLaunchDetails.payload) : null;
+        _orderID = notificationAppLaunchDetails.payload != null
+            ? int.parse(notificationAppLaunchDetails.payload)
+            : null;
       }
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
-  }catch(e) {}
+  } catch (e) {}
 
   runApp(MyApp(languages: _languages, orderID: _orderID));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final Map<String, Map<String, String>> languages;
   final int orderID;
   MyApp({@required this.languages, @required this.orderID});
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // void setupFirebase(BuildContext context) {
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+  //     print("message recieved");
+  //     print(event.notification.body);
+  //     showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) {
+  //           return AlertDialog(
+  //             title: Text("Notification"),
+  //             content: Text(event.notification.body),
+  //             actions: [
+  //               TextButton(
+  //                 child: Text("Ok"),
+  //                 onPressed: () {
+  //                   Navigator.of(context).pop();
+  //                 },
+  //               )
+  //             ],
+  //           );
+  //         });
+  //   });
+  //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage event) {
+  //     print("message recieved");
+  //     print(event.notification.body);
+  //     showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) {
+  //           return AlertDialog(
+  //             title: Text("Notification"),
+  //             content: Text(event.notification.body),
+  //             actions: [
+  //               TextButton(
+  //                 child: Text("Ok"),
+  //                 onPressed: () {
+  //                   Navigator.of(context).pop();
+  //                 },
+  //               )
+  //             ],
+  //           );
+  //         });
+  //   });
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // setupFirebase(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GetBuilder<ThemeController>(builder: (themeController) {
-      return GetBuilder<LocalizationController>(builder: (localizeController) {
-        return GetMaterialApp(
-          title: AppConstants.APP_NAME,
-          debugShowCheckedModeBanner: false,
-          navigatorKey: Get.key,
-          theme: themeController.darkTheme ? dark : light,
-          locale: localizeController.locale,
-          translations: Messages(languages: languages),
-          fallbackLocale: Locale(AppConstants.languages[0].languageCode, AppConstants.languages[0].countryCode),
-          initialRoute: RouteHelper.splash,
-          getPages: RouteHelper.routes,
-          defaultTransition: Transition.topLevel,
-          transitionDuration: Duration(milliseconds: 500),
+    return GetBuilder<ThemeController>(
+      builder: (themeController) {
+        return GetBuilder<LocalizationController>(
+          builder: (localizeController) {
+            return GetMaterialApp(
+              title: AppConstants.APP_NAME,
+              debugShowCheckedModeBanner: false,
+              navigatorKey: Get.key,
+              theme: themeController.darkTheme ? dark : light,
+              locale: localizeController.locale,
+              translations: Messages(languages: widget.languages),
+              fallbackLocale: Locale(AppConstants.languages[0].languageCode,
+                  AppConstants.languages[0].countryCode),
+              initialRoute: RouteHelper.splash,
+              getPages: RouteHelper.routes,
+              defaultTransition: Transition.topLevel,
+              transitionDuration: Duration(milliseconds: 500),
+            );
+          },
         );
       },
-      );
-    },
     );
   }
 }
