@@ -499,7 +499,18 @@ class OrderDetailsScreen extends StatelessWidget {
                                                 Get.find<AuthController>()
                                                     .getProfile();
                                                 Get.find<OrderController>()
-                                                    .getCurrentOrders();
+                                                    .getCurrentOrders()
+                                                    .then((value) {
+                                                  // print(value);
+                                                  Get.find<OrderController>()
+                                                      .sendnotification(
+                                                          value.body[0]
+                                                                  ['customer'][
+                                                              'cm_firebase_token'],
+                                                          'Confirmed',
+                                                          orderModel.id
+                                                              .toString());
+                                                });
                                               }
                                             });
                                           },
@@ -514,7 +525,16 @@ class OrderDetailsScreen extends StatelessWidget {
                                       if (success) {
                                         Get.find<AuthController>().getProfile();
                                         Get.find<OrderController>()
-                                            .getCurrentOrders();
+                                            .getCurrentOrders()
+                                            .then((value) {
+                                          // print(value);
+                                          Get.find<OrderController>()
+                                              .sendnotification(
+                                                  value.body[0]['customer']
+                                                      ['cm_firebase_token'],
+                                                  'Cooking',
+                                                  orderModel.id.toString());
+                                        });
                                       }
                                     });
                                   } else if (orderModel.orderStatus ==
@@ -530,7 +550,16 @@ class OrderDetailsScreen extends StatelessWidget {
                                       if (success) {
                                         Get.find<AuthController>().getProfile();
                                         Get.find<OrderController>()
-                                            .getCurrentOrders();
+                                            .getCurrentOrders()
+                                            .then((value) {
+                                          // print(value);
+                                          Get.find<OrderController>()
+                                              .sendnotification(
+                                                  value.body[0]['customer']
+                                                      ['cm_firebase_token'],
+                                                  'Arriving',
+                                                  orderModel.id.toString());
+                                        });
                                       }
                                     });
                                   } else if (orderModel.orderStatus == 'cooking'

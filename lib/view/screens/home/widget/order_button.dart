@@ -36,7 +36,7 @@ class OrderButton extends StatelessWidget {
       child: Row(children: [
         Container(
           padding:
-              EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+              EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
             color: isSelected
@@ -60,7 +60,7 @@ class OrderButton extends StatelessWidget {
                 index != _selectedIndex &&
                 index != _selectedIndex - 1)
             ? Container(
-                height: 15,
+                height: 20,
                 width: 1,
                 color: Theme.of(context).disabledColor,
               )

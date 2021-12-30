@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:efood_multivendor_restaurant/controller/splash_controller.dart';
 import 'package:efood_multivendor_restaurant/data/api/api_checker.dart';
 import 'package:efood_multivendor_restaurant/data/model/body/update_status_body.dart';
@@ -8,6 +10,7 @@ import 'package:efood_multivendor_restaurant/data/repository/order_repo.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class OrderController extends GetxController implements GetxService {
   final OrderRepo orderRepo;
@@ -64,7 +67,38 @@ class OrderController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> getCurrentOrders() async {
+  Future sendnotification(
+      String fcm_token, String order_status, String order_id) async {
+    print(order_id);
+    var Response =
+        await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+            body: jsonEncode({
+              "registration_ids": [
+                fcm_token,
+              ], //t
+              'titleLocKey': order_id, // oken
+              "collapse_key": "type_a",
+              "notification": {
+                'titleLocKey': order_id,
+                'title': "Order Status",
+                'body': "Order Status: ${order_status}",
+              },
+              'data': {
+                'body': "Order Status: ${order_status}",
+                'title': "Order Status",
+                'titleLocKey': "$order_id"
+              }
+            }),
+            encoding: Encoding.getByName("utf-8"),
+            headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'key=AAAAQNPQE2k:APA91bFICrAF_C7GSZ8minncTaEpfW8Bj0jcrZHO7vkPoNd-3A55AELD_pUdJI4hNSnWbSfb_AAum_OaiTPZDuKvScvcZ01EtWmgQWg6XNSeD3mAKSxsDFnm3K4dOBSkhCGwF69BgAw6'
+        });
+    var response = jsonDecode(Response.body.toString());
+  }
+
+  Future<Response> getCurrentOrders() async {
     Response response = await orderRepo.getCurrentOrders();
     print(response);
     if (response.statusCode == 200) {
@@ -83,10 +117,12 @@ class OrderController extends GetxController implements GetxService {
       });
       _campaignOnly = true;
       toggleCampaignOnly();
+      return response;
     } else {
       ApiChecker.checkApi(response);
     }
     update();
+    return response;
   }
 
   // Future<void> getCompletedOrders() async {

@@ -235,7 +235,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: orderController.runningOrders.length,
+                          itemCount: orderController.runningOrders.length - 2,
                           itemBuilder: (context, index) {
                             return OrderButton(
                               title: orderController
