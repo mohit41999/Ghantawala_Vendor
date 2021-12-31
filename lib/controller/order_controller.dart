@@ -76,10 +76,10 @@ class OrderController extends GetxController implements GetxService {
               "registration_ids": [
                 fcm_token,
               ], //t
-              'titleLocKey': order_id, // oken
+              'titleLocKey': "$order_id", // oken
               "collapse_key": "type_a",
               "notification": {
-                'titleLocKey': order_id,
+                'titleLocKey': "$order_id",
                 'title': "Order Status",
                 'body': "Order Status: ${order_status}",
               },
