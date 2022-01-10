@@ -310,29 +310,51 @@ class OrderDetailsScreen extends StatelessWidget {
                                                   .disabledColor),
                                         ),
                                       ])),
-                                  (_order.orderType == 'take_away' &&
-                                          (_order.orderStatus == 'pending' ||
-                                              _order.orderStatus ==
-                                                  'confirmed' ||
-                                              _order.orderStatus ==
-                                                  'processing'))
-                                      ? TextButton.icon(
-                                          onPressed: () async {
-                                            String url =
-                                                'https://www.google.com/maps/dir/?api=1&destination=${_order.deliveryAddress.latitude}'
-                                                ',${_order.deliveryAddress.longitude}&mode=d';
-                                            if (await canLaunch(url)) {
-                                              await launch(url);
-                                            } else {
-                                              showCustomSnackBar(
-                                                  'unable_to_launch_google_map'
-                                                      .tr);
-                                            }
-                                          },
-                                          icon: Icon(Icons.directions),
-                                          label: Text('direction'.tr),
-                                        )
-                                      : SizedBox(),
+                                  TextButton.icon(
+                                    onPressed: () async {
+                                      String url =
+                                          'https://www.google.com/maps/dir/?api=1&destination=${_order.deliveryAddress.latitude}'
+                                          ',${_order.deliveryAddress.longitude}&mode=d';
+                                      if (await canLaunch(url)) {
+                                        await launch(url);
+                                      } else {
+                                        showCustomSnackBar(
+                                            'unable_to_launch_google_map'.tr);
+                                      }
+                                    },
+                                    icon: Icon(Icons.directions),
+                                    label: Text('direction'.tr),
+                                  ),
+                                  // ((_order.orderType == 'delivery'&&(_order.orderStatus == 'pending' ||
+                                  //                                   //       _order.orderStatus ==
+                                  //                                   //           'confirmed' || _order.orderStatus ==
+                                  //                                 //                                     //           'arriving'||
+                                  //                                   //       _order.orderStatus ==
+                                  //                                   //           'processing')) ||  (_order.orderType == 'take_away' &&
+                                  //   (_order.orderStatus == 'pending' ||
+                                  //       _order.orderStatus ==
+                                  //           'confirmed' ||_order.orderStatus ==
+                                  //                               'arriving'||
+                                  //       _order.orderStatus ==
+                                  //           'processing')))
+                                  //
+                                  //   ? TextButton.icon(
+                                  //       onPressed: () async {
+                                  //         String url =
+                                  //             'https://www.google.com/maps/dir/?api=1&destination=${_order.deliveryAddress.latitude}'
+                                  //             ',${_order.deliveryAddress.longitude}&mode=d';
+                                  //         if (await canLaunch(url)) {
+                                  //           await launch(url);
+                                  //         } else {
+                                  //           showCustomSnackBar(
+                                  //               'unable_to_launch_google_map'
+                                  //                   .tr);
+                                  //         }
+                                  //       },
+                                  //       icon: Icon(Icons.directions),
+                                  //       label: Text('direction'.tr),
+                                  //     )
+                                  //   : SizedBox()
                                 ]),
                                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 

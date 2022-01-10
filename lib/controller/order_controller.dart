@@ -84,6 +84,7 @@ class OrderController extends GetxController implements GetxService {
                 'body': "Order Status: ${order_status}",
               },
               'data': {
+                'type': 'VideoCall',
                 'body': "Order Status: ${order_status}",
                 'title': "Order Status",
                 'titleLocKey': "$order_id"
