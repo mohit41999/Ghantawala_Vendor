@@ -554,7 +554,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                               .sendnotification(
                                                   value.body[0]['customer']
                                                       ['cm_firebase_token'],
-                                                  'Cooking',
+                                                  'Preparing',
                                                   orderModel.id.toString());
                                         });
                                       }
@@ -582,6 +582,12 @@ class OrderDetailsScreen extends StatelessWidget {
                                                   'Arriving',
                                                   orderModel.id.toString());
                                         });
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                backgroundColor: Colors.red,
+                                                content: Text(
+                                                    'Please complete your current order first.')));
                                       }
                                     });
                                   } else if (orderModel.orderStatus == 'cooking'
@@ -647,7 +653,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                                       .tr
                                                   : (orderModel.orderStatus ==
                                                           'arriving')
-                                                      ? "Swipe for Cooking"
+                                                      ? "Swipe for Preparing"
                                                       : (orderModel
                                                                   .orderStatus ==
                                                               'cooking')

@@ -107,8 +107,8 @@ class OrderController extends GetxController implements GetxService {
       _runningOrders = [
         RunningOrderModel(status: 'pending', orderList: []),
         RunningOrderModel(status: 'confirmed', orderList: []),
-        RunningOrderModel(status: 'arriving', orderList: []),
-        RunningOrderModel(status: 'cooking', orderList: []),
+        RunningOrderModel(status: 'Arriving', orderList: []),
+        RunningOrderModel(status: 'Preparing', orderList: []),
         RunningOrderModel(status: 'delivered', orderList: []),
         RunningOrderModel(status: 'cancelled', orderList: []),
       ];
@@ -199,6 +199,7 @@ class OrderController extends GetxController implements GetxService {
     );
     Response response = await orderRepo.updateOrderStatus(_updateStatusBody);
     print(response);
+    print('yoyoyo');
     Get.back();
     bool _isSuccess;
     if (response.statusCode == 200) {
@@ -209,7 +210,7 @@ class OrderController extends GetxController implements GetxService {
       showCustomSnackBar(response.body['message'], isError: false);
       _isSuccess = true;
     } else {
-      ApiChecker.checkApi(response);
+      // ApiChecker.checkApi(response);
       _isSuccess = false;
     }
     _isLoading = false;
